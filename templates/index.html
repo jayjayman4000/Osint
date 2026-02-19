@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OSINT Tool Selector</title>
+    <script>
+        function showReconngOptions() {
+            var tool = document.getElementById("tool").value;
+            document.getElementById("reconng-options").style.display = (tool === "reconng") ? "block" : "none";
+        }
+    </script>
+</head>
+<body onload="showReconngOptions()">
+    <h1>OSINT Tool Selector</h1>
+    <form method="post">
+        <label for="tool">Choose a tool:</label>
+        <select name="tool" id="tool" onchange="showReconngOptions()">
+            {% for tool in tools %}
+            <option value="{{ tool }}" {% if selected_tool == tool %}selected{% endif %}>{{ tool }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="target">Target:</label>
+        <input type="text" name="target" id="target" required>
+        <br><br>
+        <div id="reconng-options" style="display:none;">
+            <label for="reconng_module">Recon-ng Module:</label>
+            <select name="reconng_module" id="reconng_module">
+                {% for module in reconng_modules %}
+                <option value="{{ module }}" {% if reconng_module == module %}selected{% endif %}>{{ module }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <label for="reconng_command">Recon-ng Command:</label>
+            <input type="text" name="reconng_command" id="reconng_command" value="{{ reconng_command }}">
+            <br><br>
+        </div>
+        <input type="submit" value="Run">
+    </form>
+    <h2>Result:</h2>
+    <pre>{{ result }}</pre>
+    <script>showReconngOptions();</script>
+</body>
+</html>
